@@ -18,6 +18,7 @@ import { HomeComponent } from './home/index';
 import { LoginComponent } from './login/index';
 import { RegisterComponent } from './register/index';
 import { UserComponent } from './user/index';
+import { HeaderComponent } from './header/index';
 @NgModule({
     imports: [
         BrowserModule,
@@ -31,7 +32,8 @@ import { UserComponent } from './user/index';
         HomeComponent,
         LoginComponent,
         RegisterComponent,
-        UserComponent
+        UserComponent,
+        HeaderComponent
     ],
     providers: [
         AuthGuard,
