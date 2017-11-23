@@ -1,8 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
-
+.login-top-margin{
+    margin-top:150px;
+}
 .top-margin{
-    margin-top: 221px ;
-    left: 240px;
+    margin-top: 50px ;
 }
 body {
     background: #e9e9e9;
