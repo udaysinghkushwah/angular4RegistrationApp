@@ -2,10 +2,13 @@
 import { Http, Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map'
+import { Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class AuthenticationService {
-    constructor(private http: Http) { }
+    private loggedIn = new BehaviorSubject<boolean>(false); // {1}
+    constructor(private http: Http,private router: Router) { }
 
     login(username: string, password: string) {
         return this.http.post('/api/authenticate', JSON.stringify({ username: username, password: password }))
@@ -15,6 +18,8 @@ export class AuthenticationService {
                 if (user && user.token) {
                     // store user details and jwt token in local storage to keep user logged in between page refreshes
                     localStorage.setItem('currentUser', JSON.stringify(user));
+                    this.loggedIn.next(true);
+                    this.router.navigate(['/']);
                 }
 
                 return user;
@@ -24,14 +29,10 @@ export class AuthenticationService {
     logout() {
         // remove user from local storage to log user out
         localStorage.removeItem('currentUser');
+        this.loggedIn.next(false);
+        this.router.navigate(['/login']);
     }
-    isLogedIn(){
-        if (localStorage.getItem('currentUser')) {
-            // logged in so return true
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
+    get isLoggedIn() {
+        return this.loggedIn.asObservable(); // {2}
+      }
 }
